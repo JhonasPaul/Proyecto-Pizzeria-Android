@@ -8,11 +8,14 @@ import android.util.Log
 import android.view.View
 
 import android.widget.Toast
+import com.google.gson.Gson
 import pe.idat.proyecto.pizzeria.R
+import pe.idat.proyecto.pizzeria.activities.client.home.ClientHomeActivity
 import pe.idat.proyecto.pizzeria.databinding.ActivityRegisterBinding
 import pe.idat.proyecto.pizzeria.models.ResponseHttp
 import pe.idat.proyecto.pizzeria.models.User
 import pe.idat.proyecto.pizzeria.providers.UserProvider
+import pe.idat.proyecto.pizzeria.utils.SharedPref
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,7 +61,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(p0: View) {
         when (p0.id) {
             R.id.btnRegiter -> register()
-            R.id.imageviewGoToLogin -> goToLogin()
+//            R.id.imageviewGoToLogin -> goToLogin()
         }
     }
 
@@ -82,10 +85,15 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             usersPrivider.register(user)?.enqueue(object : Callback<ResponseHttp>{
                 /*en el caso que el servidor no retorne una repsuesta*/
                 override fun onResponse(call: Call<ResponseHttp>, response: Response<ResponseHttp>) {
+
+                    if (response.body()?.isSuccess == true) {
+                        saveUserInSession(response.body()?.data.toString())
+                        goToClientHome()
+                    }
                                                     /*captura mensajes del back(controller)*/
                     Toast.makeText(this@RegisterActivity, response.body()?.message, Toast.LENGTH_LONG).show()
-                    Toast.makeText(this@RegisterActivity, "Ya puedes iniciar sesion", Toast.LENGTH_LONG).show()
-                    goToLogin()
+                    /*Toast.makeText(this@RegisterActivity, "Ya puedes iniciar sesion", Toast.LENGTH_LONG).show()
+                    goToLogin()*/
                     /*respuesta de errores del json del servidor*/
                     Log.d(TAG, "Response ${response}")
                     Log.d(TAG, "Body ${response.body()}")
@@ -105,6 +113,18 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         Log.d(TAG, "El password es: $password")
         Log.d(TAG, "El confirmacion del password es: $confirmPassword")
 
+    }
+
+    private fun goToClientHome() {
+        val i = Intent(this, ClientHomeActivity::class.java)
+        startActivity(i)
+    }
+
+    private fun saveUserInSession(data:String){
+        val sharedPref = SharedPref(this)
+        val gson = Gson()
+        val user = gson.fromJson(data, User::class.java)
+        sharedPref.save("user", user)
     }
 
     /*validar email, se le puede aplicar este metodo a cualquier string*/
@@ -163,10 +183,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         return true
     }
 
-    private fun goToLogin() {
-        val i = Intent(this, MainActivity::class.java)
-        startActivity(i)
-    }
+//    private fun goToLogin() {
+//        val i = Intent(this, MainActivity::class.java)
+//        startActivity(i)
+//    }
 
 
 }
