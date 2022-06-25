@@ -9,6 +9,7 @@ import com.google.gson.Gson
 /*almacenar la sesion del usuario*/
 class SharedPref(activity:Activity) {
 
+    /*interfaz para la persistencia de datos*/
     private lateinit var  prefs: SharedPreferences
 
     init {
@@ -17,6 +18,7 @@ class SharedPref(activity:Activity) {
 
     fun save(key:String, objeto:Any){
         try {
+            /*convierte os objetos eb json*/
             val gson = Gson()
             /*transforma el objeto a son*/
             val json = gson.toJson(objeto)

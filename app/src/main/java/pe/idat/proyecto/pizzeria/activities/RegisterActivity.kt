@@ -11,6 +11,8 @@ import android.widget.Toast
 import com.google.gson.Gson
 import pe.idat.proyecto.pizzeria.R
 import pe.idat.proyecto.pizzeria.activities.client.home.ClientHomeActivity
+import pe.idat.proyecto.pizzeria.activities.commom.AppMensaje
+import pe.idat.proyecto.pizzeria.activities.commom.TipoMensaje
 import pe.idat.proyecto.pizzeria.databinding.ActivityRegisterBinding
 import pe.idat.proyecto.pizzeria.models.ResponseHttp
 import pe.idat.proyecto.pizzeria.models.User
@@ -61,7 +63,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(p0: View) {
         when (p0.id) {
             R.id.btnRegiter -> register()
-//            R.id.imageviewGoToLogin -> goToLogin()
+            R.id.imageviewGoToLogin -> goToLogin()
         }
     }
 
@@ -86,14 +88,19 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 /*en el caso que el servidor no retorne una repsuesta*/
                 override fun onResponse(call: Call<ResponseHttp>, response: Response<ResponseHttp>) {
 
-                    if (response.body()?.isSuccess == true) {
+                   /* if (response.body()?.isSuccess == true) {
                         saveUserInSession(response.body()?.data.toString())
                         goToClientHome()
-                    }
+                    }*/
                                                     /*captura mensajes del back(controller)*/
-                    Toast.makeText(this@RegisterActivity, response.body()?.message, Toast.LENGTH_LONG).show()
-                    /*Toast.makeText(this@RegisterActivity, "Ya puedes iniciar sesion", Toast.LENGTH_LONG).show()
-                    goToLogin()*/
+//                    Toast.makeText(this@RegisterActivity, response.body()?.message, Toast.LENGTH_LONG).show()
+
+                    AppMensaje.enviarMensaje(binding.root,
+                        "Persona registrada correctamente" + "\n" +
+                                "Ya puedes iniciar sesión¡¡¡", TipoMensaje.SUCCESSFULL)
+
+                    setearControles()
+
                     /*respuesta de errores del json del servidor*/
                     Log.d(TAG, "Response ${response}")
                     Log.d(TAG, "Body ${response.body()}")
@@ -115,10 +122,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    private fun goToClientHome() {
-        val i = Intent(this, ClientHomeActivity::class.java)
-        startActivity(i)
-    }
+//    private fun goToClientHome() {
+//        val i = Intent(this, ClientHomeActivity::class.java)
+//        startActivity(i)
+//    }
 
     private fun saveUserInSession(data:String){
         val sharedPref = SharedPref(this)
@@ -141,52 +148,73 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         confirmpassword: String
     ): Boolean {
         if(name.isBlank()){
-            Toast.makeText(this, "Debes ingresar el nombre", Toast.LENGTH_LONG).show()
+//            Toast.makeText(this, "Debes ingresar el nombre", Toast.LENGTH_LONG).show()
+            AppMensaje.enviarMensaje(binding.root,
+                "Debe ingresar el nombre", TipoMensaje.ERROR)
             return false
         }
         if(lastname.isBlank()){
-            Toast.makeText(this, "Debes ingresar el apellido", Toast.LENGTH_LONG).show()
-
+//            Toast.makeText(this, "Debes ingresar el apellido", Toast.LENGTH_LONG).show()
+            AppMensaje.enviarMensaje(binding.root,
+                "Debe ingresar el apellido", TipoMensaje.ERROR)
+            return false
+        }
+        if(email.isBlank()) {
+//            Toast.makeText(this, "Debes ingresar el email", Toast.LENGTH_LONG).show()
+            AppMensaje.enviarMensaje(
+                binding.root,
+                "Debe ingresar el email", TipoMensaje.ERROR
+            )
             return false
         }
         if(phone.isBlank()){
-            Toast.makeText(this, "Debes ingresar el telefono", Toast.LENGTH_LONG).show()
-
+//            Toast.makeText(this, "Debes ingresar el telefono", Toast.LENGTH_LONG).show()
+            AppMensaje.enviarMensaje(binding.root,
+                "Debe ingresar un numero de telefono", TipoMensaje.ERROR)
             return false
-        }
-        if(email.isBlank()){
-            Toast.makeText(this, "Debes ingresar el email", Toast.LENGTH_LONG).show()
 
-            return false
         }
         if(password.isBlank()){
-            Toast.makeText(this, "Debes ingresar el password", Toast.LENGTH_LONG).show()
-
+//            Toast.makeText(this, "Debes ingresar el password", Toast.LENGTH_LONG).show()
+            AppMensaje.enviarMensaje(binding.root,
+                "Debe ingresar el password", TipoMensaje.ERROR)
             return false
         }
         if(confirmpassword.isBlank()){
-            Toast.makeText(this, "Debes ingresar la confirmacion del password", Toast.LENGTH_LONG).show()
-
+//            Toast.makeText(this, "Debes ingresar la confirmacion del password", Toast.LENGTH_LONG).show()
+            AppMensaje.enviarMensaje(binding.root,
+                "Debe ingresar la confirmacion del password", TipoMensaje.ERROR)
             return false
         }
 
         if(!email.isEmailVailValid()){
-            Toast.makeText(this, "El main es invalido", Toast.LENGTH_LONG).show()
-
+//            Toast.makeText(this, "El main es invalido", Toast.LENGTH_LONG).show()
+            AppMensaje.enviarMensaje(binding.root,
+                "El emai es invalido", TipoMensaje.ERROR)
             return false
         }
         if(password != confirmpassword){
-            Toast.makeText(this, "Las contraseñas deben ser iguales ", Toast.LENGTH_LONG).show()
-
+//            Toast.makeText(this, "Las contraseñas deben ser iguales ", Toast.LENGTH_LONG).show()
+            AppMensaje.enviarMensaje(binding.root,
+                "Las contraseñas no coiciden", TipoMensaje.ERROR)
             return false
         }
         return true
     }
 
-//    private fun goToLogin() {
-//        val i = Intent(this, MainActivity::class.java)
-//        startActivity(i)
-//    }
+    private fun goToLogin() {
+        val i = Intent(this, MainActivity::class.java)
+        startActivity(i)
+    }
 
-
+    private fun setearControles() {
+        binding.edittextName.setText("")
+        binding.edittextLastname.setText("")
+        binding.edittextMail.setText("")
+        binding.edittextPhone.setText("")
+        binding.edittextPassword.setText("")
+        binding.edittextConfirmPassword.setText("")
+        binding.edittextName.isFocusableInTouchMode = true
+        binding.edittextName.requestFocus()
+    }
 }

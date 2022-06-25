@@ -10,6 +10,8 @@ import android.widget.Toast
 import com.google.gson.Gson
 import pe.idat.proyecto.pizzeria.R
 import pe.idat.proyecto.pizzeria.activities.MainActivity
+import pe.idat.proyecto.pizzeria.activities.commom.AppMensaje
+import pe.idat.proyecto.pizzeria.activities.commom.TipoMensaje
 import pe.idat.proyecto.pizzeria.databinding.ActivityClientHomeBinding
 import pe.idat.proyecto.pizzeria.databinding.ActivityMainBinding
 import pe.idat.proyecto.pizzeria.models.User

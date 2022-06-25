@@ -11,4 +11,6 @@
     <color name="green_accent">#ff0ca355</color>
     <color name="gray">#b5b5b5</color>
     <color name="gray_light">#f5f5f5</color>
+    <color name="snackbarerror">#FD0000</color>
+    <color name="snackbarsuccess">#2C9706</color>
 </resources>
