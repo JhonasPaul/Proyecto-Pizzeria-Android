@@ -1,6 +1,8 @@
 package pe.idat.proyecto.pizzeria.activities
 
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -13,6 +15,8 @@ import pe.idat.proyecto.pizzeria.R
 import pe.idat.proyecto.pizzeria.activities.client.home.ClientHomeActivity
 import pe.idat.proyecto.pizzeria.activities.commom.AppMensaje
 import pe.idat.proyecto.pizzeria.activities.commom.TipoMensaje
+import pe.idat.proyecto.pizzeria.activities.delivery.home.DeliveryHomeActivity
+import pe.idat.proyecto.pizzeria.activities.restaurante.home.RestaurantHomeActivity
 import pe.idat.proyecto.pizzeria.databinding.ActivityMainBinding
 import pe.idat.proyecto.pizzeria.models.ResponseHttp
 import pe.idat.proyecto.pizzeria.models.User
@@ -23,6 +27,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+
 
     private lateinit var binding: ActivityMainBinding
 
@@ -117,7 +122,30 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (!sharedPref.getData("user").isNullOrBlank()){
             /*obtener la informacion*/
             val user = gson.fromJson(sharedPref.getData("user"),User::class.java)/*convertir la informacion a tipo usuario*/
-            goToClientHome()
+            if (!sharedPref.getData("rol").isNullOrBlank()) {
+                /*si elusuario selecciono el rol*/
+                val rol = sharedPref.getData("rol")?.replace("\"", "")
+                Log.d("MainActivity", "ROL $rol")
+                if (rol == "RESTAURANTE") {
+                    goToRestaurantHome()
+                }
+                else if (rol == "CLIENTE") {
+                    goToClientHome()
+                }
+                else if (rol == "REPARTIDOR") {
+                    goToDeliveryHome()
+                }
+                else{
+                goToClientHome()
+
+                }
+
+            }
+            else{
+                Log.d("MainActivity", "ROl NO EXISTE")
+                goToClientHome()
+            }
+
         }
     }
 
@@ -143,11 +171,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun goToClientHome() {
         val i = Intent(this, ClientHomeActivity::class.java)
+        /*elimina el historial de pantalla*/
+        i.flags =  FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK
         startActivity(i)
     }
 
+    private fun goToRestaurantHome() {
+        val i = Intent(this, RestaurantHomeActivity::class.java)
+        i.flags =  FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(i)
+    }
+    private fun goToDeliveryHome() {
+        val i = Intent(this, DeliveryHomeActivity::class.java)
+        i.flags =  FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(i)
+    }
     private fun goToSelectRoles() {
         val i = Intent(this, SelectRolesActivity::class.java)
+        i.flags =  FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK
+
         startActivity(i)
     }
 }

@@ -3,7 +3,7 @@ package pe.idat.proyecto.pizzeria.api
 import pe.idat.proyecto.pizzeria.routes.UsersRoutes
 
 class ApiRoutes {
-    val api_URL = "http://172.25.96.1:3000/api/"
+    val api_URL = "http://172.20.144.1:3000/api/"
     val retrofit = RetrofitClient()
 
     fun getUserRoutes(): UsersRoutes {

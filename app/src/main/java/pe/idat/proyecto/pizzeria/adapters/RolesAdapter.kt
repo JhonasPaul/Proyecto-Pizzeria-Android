@@ -1,6 +1,7 @@
 package pe.idat.proyecto.pizzeria.adapters
 
 import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import pe.idat.proyecto.pizzeria.R
+import pe.idat.proyecto.pizzeria.activities.client.home.ClientHomeActivity
+import pe.idat.proyecto.pizzeria.activities.delivery.home.DeliveryHomeActivity
+import pe.idat.proyecto.pizzeria.activities.restaurante.home.RestaurantHomeActivity
 import pe.idat.proyecto.pizzeria.models.Rol
+import pe.idat.proyecto.pizzeria.utils.SharedPref
 
 class RolesAdapter(val context:Activity, val roles:ArrayList<Rol>) : RecyclerView.Adapter<RolesAdapter.RolesViewHolder>(){
+
+    val sharedPref = SharedPref(context)
 
    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RolesViewHolder{
         val view = LayoutInflater.from(parent.context).inflate(R.layout.cardview_roles, parent, false)/*instanciamos la vista*/
@@ -28,6 +35,32 @@ class RolesAdapter(val context:Activity, val roles:ArrayList<Rol>) : RecyclerVie
         holder.textViewRol.text = rol.name
         /*mostrar iamgen por url*/                  /*donde se mostrara la imagen*/
         Glide.with(context).load(rol.image).into(holder.imageViewRol)
+
+        holder.itemView.setOnClickListener { goToRol(rol) }
+    }
+
+    private fun goToRol(rol: Rol) {
+        if (rol.name == "RESTAURANTE") {
+
+                /*guardar datos en sesion(ultimo rol seleccionado por el usuaario)*/
+            sharedPref.save("rol", "RESTAURANTE")
+
+            val i = Intent(context,RestaurantHomeActivity ::class.java)
+            context.startActivity(i)
+        }
+        else if (rol.name == "CLIENTE") {
+            sharedPref.save("rol", "CLIENTE")
+
+            val i = Intent(context, ClientHomeActivity::class.java)
+            context.startActivity(i)
+        }
+        else if (rol.name == "REPARTIDOR") {
+
+            sharedPref.save("rol", "REPARTIDOR")
+
+            val i = Intent(context, DeliveryHomeActivity::class.java)
+            context.startActivity(i)
+        }
     }
 
     class RolesViewHolder(view:View):RecyclerView.ViewHolder(view){
@@ -38,6 +71,8 @@ class RolesAdapter(val context:Activity, val roles:ArrayList<Rol>) : RecyclerVie
         init {
             textViewRol = view.findViewById(R.id.textview_rol)
             imageViewRol = view.findViewById(R.id.imageview_rol)
+
+
         }
     }
 }

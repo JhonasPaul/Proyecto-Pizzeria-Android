@@ -23,6 +23,8 @@
             android:exported="false"
             tools:ignore="MissingClass" />
         <activity android:name=".activities.RegisterActivity" />
+        <activity android:name=".activities.restaurante.home.RestaurantHomeActivity" />
+        <activity android:name=".activities.delivery.home.DeliveryHomeActivity" />
         <activity
             android:name=".activities.MainActivity"
             android:exported="true">
