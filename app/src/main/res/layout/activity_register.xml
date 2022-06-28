@@ -11,47 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"><![CDATA[
-
-
-
-
-
-        />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        ]]>
+        tools:layout_editor_absoluteY="0dp"><![CDATA[/>]]>
 
         <Button
             android:id="@+id/btnRegiter"

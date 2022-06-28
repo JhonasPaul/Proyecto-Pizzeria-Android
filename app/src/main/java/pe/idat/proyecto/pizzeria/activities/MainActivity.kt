@@ -20,7 +20,7 @@ import pe.idat.proyecto.pizzeria.activities.restaurante.home.RestaurantHomeActiv
 import pe.idat.proyecto.pizzeria.databinding.ActivityMainBinding
 import pe.idat.proyecto.pizzeria.models.ResponseHttp
 import pe.idat.proyecto.pizzeria.models.User
-import pe.idat.proyecto.pizzeria.providers.UserProvider
+import pe.idat.proyecto.pizzeria.providers.UsersProvider
 import pe.idat.proyecto.pizzeria.utils.SharedPref
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
 
-    var userProvider = UserProvider()
+    var usersProvider = UsersProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
           val passwword = binding.edittexPassword.text.toString()
 
         if(isValidateForm(email, passwword)){
-            userProvider.login(email, passwword)?.enqueue(object : Callback<ResponseHttp>{
+            usersProvider.login(email, passwword)?.enqueue(object : Callback<ResponseHttp>{
                 override fun onResponse(call: Call<ResponseHttp>, response: Response<ResponseHttp>) {
 
                     Log.d("MainActivity", "Response: ${response.body()}")

@@ -16,7 +16,7 @@ import pe.idat.proyecto.pizzeria.activities.commom.TipoMensaje
 import pe.idat.proyecto.pizzeria.databinding.ActivityRegisterBinding
 import pe.idat.proyecto.pizzeria.models.ResponseHttp
 import pe.idat.proyecto.pizzeria.models.User
-import pe.idat.proyecto.pizzeria.providers.UserProvider
+import pe.idat.proyecto.pizzeria.providers.UsersProvider
 import pe.idat.proyecto.pizzeria.utils.SharedPref
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,7 +36,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     var editTextConfirmPassword: EditText?=  null
     var buttonRegister: Button?=  null*/
 
-    var usersPrivider = UserProvider()
+    var usersPrivider = UsersProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,16 +88,16 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 /*en el caso que el servidor no retorne una repsuesta*/
                 override fun onResponse(call: Call<ResponseHttp>, response: Response<ResponseHttp>) {
 
-                   /* if (response.body()?.isSuccess == true) {
+                    if (response.body()?.isSuccess == true) {
                         saveUserInSession(response.body()?.data.toString())
                         goToClientHome()
-                    }*/
+                    }
                                                     /*captura mensajes del back(controller)*/
-//                    Toast.makeText(this@RegisterActivity, response.body()?.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@RegisterActivity, response.body()?.message, Toast.LENGTH_LONG).show()
 
-                    AppMensaje.enviarMensaje(binding.root,
+                    /*AppMensaje.enviarMensaje(binding.root,
                         "Persona registrada correctamente" + "\n" +
-                                "Ya puedes iniciar sesión¡¡¡", TipoMensaje.SUCCESSFULL)
+                                "Ya puedes iniciar sesión¡¡¡", TipoMensaje.SUCCESSFULL)*/
 
                     setearControles()
 
@@ -216,5 +216,12 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         binding.edittextConfirmPassword.setText("")
         binding.edittextName.isFocusableInTouchMode = true
         binding.edittextName.requestFocus()
+    }
+
+    private fun goToClientHome() {
+        val i = Intent(this, SaveImageActivity::class.java)
+        /*elimina el historial de pantalla*/
+        i.flags =  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(i)
     }
 }
