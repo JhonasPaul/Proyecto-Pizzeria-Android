@@ -29,11 +29,15 @@ class SaveImageActivity : AppCompatActivity() {
      lateinit var  buttonNext: Button
      lateinit var  buttonConfirm: Button
 
-    lateinit var imageFile: File
-
     var usersProvider = UsersProvider()
-    private lateinit var user: User
-    private lateinit var sharedPref: SharedPref
+
+//    lateinit var imageFile: File
+//    private lateinit var user: User
+//    private lateinit var sharedPref: SharedPref
+
+    private var imageFile: File? = null
+    var user: User? = null
+    var sharedPref: SharedPref? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +51,7 @@ class SaveImageActivity : AppCompatActivity() {
         buttonNext = findViewById(R.id.btn_next)
         buttonConfirm = findViewById(R.id.btn_confirm)
 
-        circleImageUser?.setOnClickListener{selectImage()}
+        circleImageUser.setOnClickListener{selectImage()}
 
         buttonNext.setOnClickListener{goToClientHome()}
         buttonConfirm.setOnClickListener{saveImage()}
@@ -56,7 +60,7 @@ class SaveImageActivity : AppCompatActivity() {
     private fun saveImage() {
 
         if (imageFile != null && user != null) {
-            usersProvider.update(imageFile, user).enqueue(object: Callback<ResponseHttp> {
+            usersProvider.update(imageFile!!, user!!).enqueue(object: Callback<ResponseHttp> {
                 override fun onResponse(call: Call<ResponseHttp>, response: Response<ResponseHttp>) {
 
                     Log.d(TAG, "RESPONSE: $response")
@@ -82,7 +86,7 @@ class SaveImageActivity : AppCompatActivity() {
     private fun saveUserInSession(data:String){
         val gson = Gson()
         val user = gson.fromJson(data, User::class.java)
-        sharedPref.save("user", user)
+        sharedPref?.save("user", user)
         goToClientHome()
 
     }
@@ -98,9 +102,9 @@ class SaveImageActivity : AppCompatActivity() {
         val gson = Gson()
 
         /*si el usuario existe en la sesion*/
-        if (!sharedPref.getData("user").isNullOrBlank()){
+        if (!sharedPref?.getData("user").isNullOrBlank()){
             /*obtener la informacion*/
-             user = gson.fromJson(sharedPref.getData("user"), User::class.java)/*convertir la informacion a tipo usuario*/
+             user = gson.fromJson(sharedPref?.getData("user"), User::class.java)/*convertir la informacion a tipo usuario*/
         }
     }
 
