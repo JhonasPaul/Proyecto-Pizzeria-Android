@@ -38,7 +38,7 @@ class ClientUpdateActivity : AppCompatActivity() {
     var user: User? = null
     private var imageFile: File? = null
 
-    var usersProvider = UsersProvider()
+    var usersProvider: UsersProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +53,8 @@ class ClientUpdateActivity : AppCompatActivity() {
         buttonUpdate = findViewById(R.id.btn_update)
 
         getUserFromSession()
+
+        usersProvider = UsersProvider(user?.sessionToken)
 
         editTextName?.setText(user?.name)
         editTextLastname?.setText(user?.lastname)
@@ -80,15 +82,18 @@ class ClientUpdateActivity : AppCompatActivity() {
         user?.phone = phone
 
         if (imageFile != null) {
-            usersProvider.update(imageFile!!, user!!).enqueue(object: Callback<ResponseHttp> {
+            usersProvider?.update(imageFile!!, user!!)?.enqueue(object: Callback<ResponseHttp> {
                 override fun onResponse(call: Call<ResponseHttp>, response: Response<ResponseHttp>) {
                     Log.d(TAG, "RESPONSE: $response")
                     Log.d(TAG, "BODY: ${response.body()}")
 
-//                    Toast.makeText(this@ClientUpdateActivity, response.body()?.message, Toast.LENGTH_SHORT).show()
-                    AppMensaje.enviarMensaje(buttonUpdate!!.rootView,
-                        "Usuario ${user?.name} acualizado con exito", TipoMensaje.SUCCESSFULL)
-                    saveUserInSession(response.body()?.data.toString())
+                    Toast.makeText(this@ClientUpdateActivity, response.body()?.message, Toast.LENGTH_SHORT).show()
+//                    AppMensaje.enviarMensaje(buttonUpdate!!.rootView,
+//                        "Usuario ${user?.name} acualizado con exito", TipoMensaje.SUCCESSFULL)
+
+                    if (response.body()?.isSuccess == true) {
+                        saveUserInSession(response.body()?.data.toString())
+                    }
                 }
                 override fun onFailure(call: Call<ResponseHttp>, t: Throwable) {
                     Log.d(TAG, "Error: ${t.message}")
@@ -98,15 +103,18 @@ class ClientUpdateActivity : AppCompatActivity() {
             })
         }
         else{
-            usersProvider.updateWithoutImage(user!!)?.enqueue(object: Callback<ResponseHttp> {
+            usersProvider?.updateWithoutImage(user!!)?.enqueue(object: Callback<ResponseHttp> {
                 override fun onResponse(call: Call<ResponseHttp>, response: Response<ResponseHttp>) {
                     Log.d(TAG, "RESPONSE: $response")
                     Log.d(TAG, "BODY: ${response.body()}")
-//                    Toast.makeText(this@ClientUpdateActivity, response.body()?.message, Toast.LENGTH_SHORT).show()
-                    AppMensaje.enviarMensaje(buttonUpdate!!.rootView,
-                        "Usuario ${user?.name} acualizado con exito", TipoMensaje.SUCCESSFULL)
+                    Toast.makeText(this@ClientUpdateActivity, response.body()?.message, Toast.LENGTH_SHORT).show()
+//                    AppMensaje.enviarMensaje(buttonUpdate!!.rootView,
+//                        "Usuario ${user?.name} acualizado con exito", TipoMensaje.SUCCESSFULL)
 
-                    saveUserInSession(response.body()?.data.toString())
+                    if (response.body()?.isSuccess == true) {
+                        saveUserInSession(response.body()?.data.toString())
+                    }
+
                 }
                 override fun onFailure(call: Call<ResponseHttp>, t: Throwable) {
                     Log.d(TAG, "Error: ${t.message}")

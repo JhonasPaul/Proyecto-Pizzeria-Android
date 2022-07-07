@@ -10,12 +10,18 @@ import pe.idat.proyecto.pizzeria.routes.UsersRoutes
 import retrofit2.Call
 import java.io.File
 
-class UsersProvider {
+class UsersProvider(val token:String? = null) {
     private lateinit  var userRaoutes: UsersRoutes
+    private lateinit  var userRaoutesToken: UsersRoutes
 
     init {
         val api = ApiRoutes()
         userRaoutes = api.getUserRoutes()
+
+        if (token != null) {
+
+        userRaoutesToken = api.getUserRoutesWithToken(token!!)
+        }
     }
 
     fun register(user:User): Call<ResponseHttp>?{
@@ -27,7 +33,7 @@ class UsersProvider {
     }
 
     fun updateWithoutImage(user:User): Call<ResponseHttp>?{
-        return userRaoutes.updateWithoutImage(user)
+        return userRaoutesToken.updateWithoutImage(user, token!!)
     }
 
     fun update(file: File, user: User): Call<ResponseHttp> {
@@ -35,6 +41,6 @@ class UsersProvider {
         val image = MultipartBody.Part.createFormData("image", file.name, reqFile)
         val requestBody = RequestBody.create(MediaType.parse("text/plain"), user.toJson())
 
-        return userRaoutes.update(image,requestBody)
+        return userRaoutesToken.update(image,requestBody, token!!)
     }
 }
