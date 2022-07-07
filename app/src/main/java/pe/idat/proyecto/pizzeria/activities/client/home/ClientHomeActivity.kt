@@ -12,10 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import pe.idat.proyecto.pizzeria.R
 import pe.idat.proyecto.pizzeria.activities.MainActivity
-import pe.idat.proyecto.pizzeria.activities.commom.AppMensaje
-import pe.idat.proyecto.pizzeria.activities.commom.TipoMensaje
 import pe.idat.proyecto.pizzeria.databinding.ActivityClientHomeBinding
-import pe.idat.proyecto.pizzeria.databinding.ActivityMainBinding
 import pe.idat.proyecto.pizzeria.fragments.client.ClientCategoriesFragment
 import pe.idat.proyecto.pizzeria.fragments.client.ClientOrdersFragment
 import pe.idat.proyecto.pizzeria.fragments.client.ClientProfileFragment
@@ -41,6 +38,9 @@ class ClientHomeActivity : AppCompatActivity(), View.OnClickListener {
         sharedPref = SharedPref(this)
         /*se ejecuta cuando se haga click sobre logout*/
 //        binding.btnLogout.setOnClickListener{logout()}
+
+        openFragment(ClientCategoriesFragment())
+
 
         bottomNavigation = findViewById(R.id.bottom_navigation)
         bottomNavigation?.setOnItemSelectedListener {
@@ -71,12 +71,7 @@ class ClientHomeActivity : AppCompatActivity(), View.OnClickListener {
         transaction.commit()
     }
 
-    private fun logout() {
-        sharedPref.remove("user")
-        val i = Intent(this, MainActivity::class.java)
-        Toast.makeText(this, "Has cerrado sesión", Toast.LENGTH_LONG).show()
-        startActivity(i)
-    }
+
 
     private fun getUserFromSession() {
         val sharedPref = SharedPref(this)

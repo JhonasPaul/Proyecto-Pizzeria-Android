@@ -45,7 +45,7 @@ class RolesAdapter(val context:Activity, val roles:ArrayList<Rol>) : RecyclerVie
                 /*guardar datos en sesion(ultimo rol seleccionado por el usuaario)*/
             sharedPref.save("rol", "RESTAURANTE")
 
-            val i = Intent(context,RestaurantHomeActivity ::class.java)
+            val i = Intent(context, RestaurantHomeActivity ::class.java)
             context.startActivity(i)
         }
         else if (rol.name == "CLIENTE") {

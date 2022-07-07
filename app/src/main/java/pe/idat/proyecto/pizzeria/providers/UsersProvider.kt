@@ -26,6 +26,10 @@ class UsersProvider {
         return userRaoutes.login(email, password)
     }
 
+    fun updateWithoutImage(user:User): Call<ResponseHttp>?{
+        return userRaoutes.updateWithoutImage(user)
+    }
+
     fun update(file: File, user: User): Call<ResponseHttp> {
         val reqFile = RequestBody.create(MediaType.parse("image/*"), file)
         val image = MultipartBody.Part.createFormData("image", file.name, reqFile)
