@@ -13,6 +13,7 @@ interface UsersRoutes
     fun register(@Body user: User): Call<ResponseHttp>
 
     @FormUrlEncoded
+    /*ruta userRoutes del back*/
     @POST("users/login")
     /*parametros del metodo login en el back*/
     fun login(@Field("email")email:String, @Field("password")password:String): Call<ResponseHttp>

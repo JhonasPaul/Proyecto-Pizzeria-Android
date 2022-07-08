@@ -20,7 +20,7 @@ class UsersProvider(val token:String? = null) {
 
         if (token != null) {
 
-        userRaoutesToken = api.getUserRoutesWithToken(token!!)
+        userRaoutesToken = api.getUserRoutesWithToken(token)
         }
     }
 

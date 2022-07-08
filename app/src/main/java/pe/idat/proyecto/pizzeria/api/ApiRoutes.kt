@@ -1,5 +1,6 @@
 package pe.idat.proyecto.pizzeria.api
 
+import pe.idat.proyecto.pizzeria.routes.CategoriesRoutes
 import pe.idat.proyecto.pizzeria.routes.UsersRoutes
 
 class ApiRoutes {
@@ -13,6 +14,10 @@ class ApiRoutes {
     /*peticiones con token*/
     fun getUserRoutesWithToken(token:String): UsersRoutes {
         return retrofit.getClientWithToken(api_URL, token).create(UsersRoutes::class.java)
+    }
+
+    fun getCategoriesRouts(token:String): CategoriesRoutes {
+        return retrofit.getClientWithToken(api_URL, token).create(CategoriesRoutes::class.java)
     }
 
 }

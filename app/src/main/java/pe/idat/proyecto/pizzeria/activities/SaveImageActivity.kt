@@ -29,7 +29,7 @@ class SaveImageActivity : AppCompatActivity() {
      lateinit var  buttonNext: Button
      lateinit var  buttonConfirm: Button
 
-    var usersProvider = UsersProvider()
+    var usersProvider:  UsersProvider? = null
 
 //    lateinit var imageFile: File
 //    private lateinit var user: User
@@ -47,6 +47,8 @@ class SaveImageActivity : AppCompatActivity() {
 
         getUserFromSession()
 
+        usersProvider = UsersProvider(user?.sessionToken)
+
         circleImageUser = findViewById(R.id.circleimage_user)
         buttonNext = findViewById(R.id.btn_next)
         buttonConfirm = findViewById(R.id.btn_confirm)
@@ -60,7 +62,7 @@ class SaveImageActivity : AppCompatActivity() {
     private fun saveImage() {
 
         if (imageFile != null && user != null) {
-            usersProvider.update(imageFile!!, user!!).enqueue(object: Callback<ResponseHttp> {
+            usersProvider?.update(imageFile!!, user!!)?.enqueue(object: Callback<ResponseHttp> {
                 override fun onResponse(call: Call<ResponseHttp>, response: Response<ResponseHttp>) {
 
                     Log.d(TAG, "RESPONSE: $response")
@@ -88,7 +90,6 @@ class SaveImageActivity : AppCompatActivity() {
         val user = gson.fromJson(data, User::class.java)
         sharedPref?.save("user", user)
         goToClientHome()
-
     }
 
     private fun goToClientHome() {
