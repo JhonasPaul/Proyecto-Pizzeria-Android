@@ -81,7 +81,6 @@ class SaveImageActivity : AppCompatActivity() {
         else {
             Toast.makeText(this, "La imagen no puede ser nula ni tampoco los datos de sesion del usuario", Toast.LENGTH_LONG).show()
         }
-
     }
 
     /*guarda el usuario en sesion*/

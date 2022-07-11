@@ -21,6 +21,10 @@ class CategoriesProvider(val token:String) {
         categoriesRoutes  = api.getCategoriesRouts(token)
     }
 
+    fun getAll(): Call<ArrayList<Category>>? {
+        return categoriesRoutes?.getAll(token)
+    }
+
     fun create(file: File, category: Category): Call<ResponseHttp>? {
         val reqFile = RequestBody.create(MediaType.parse("image/*"), file)
         val image = MultipartBody.Part.createFormData("image", file.name, reqFile)

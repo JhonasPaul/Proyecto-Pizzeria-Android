@@ -84,8 +84,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
           }
       }
 
-
-
     /*VALIDACIONES*/
     /*validar email, se le puede aplicar este metodo a cualquier string*/
     fun String.isEmailVailValid(): Boolean{
@@ -123,7 +121,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             /*obtener la informacion*/
             val user = gson.fromJson(sharedPref.getData("user"),User::class.java)/*convertir la informacion a tipo usuario*/
             if (!sharedPref.getData("rol").isNullOrBlank()) {
-                /*si elusuario selecciono el rol*/
+                /*si el usuario selecciono el rol*/
                 val rol = sharedPref.getData("rol")?.replace("\"", "")
                 Log.d("MainActivity", "ROL $rol")
                 if (rol == "RESTAURANTE") {
@@ -137,15 +135,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 else{
                 goToClientHome()
-
                 }
-
             }
             else{
                 Log.d("MainActivity", "ROl NO EXISTE")
                 goToClientHome()
             }
-
         }
     }
 
@@ -181,15 +176,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         i.flags =  FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK
         startActivity(i)
     }
+
     private fun goToDeliveryHome() {
         val i = Intent(this, DeliveryHomeActivity::class.java)
         i.flags =  FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK
         startActivity(i)
     }
+
     private fun goToSelectRoles() {
         val i = Intent(this, SelectRolesActivity::class.java)
         i.flags =  FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK
-
         startActivity(i)
     }
 }
