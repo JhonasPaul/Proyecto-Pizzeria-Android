@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -31,7 +34,7 @@ class ClientCategoriesFragment : Fragment() {
     var user: User? = null
     var sharedPref: SharedPref? = null
     var categories = ArrayList<Category>()
-
+    var toolBar: Toolbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +42,12 @@ class ClientCategoriesFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_client_categories, container, false)
+
+        toolBar = myView?.findViewById(R.id.toolbar)
+        toolBar?.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        toolBar?.title = "Categorias"
+        (activity as AppCompatActivity).setSupportActionBar(toolBar)
+
         recyclerViewCategories = myView?.findViewById(R.id.recycletview_categories)
         recyclerViewCategories?.layoutManager = LinearLayoutManager(requireContext())/*especifica que los elementos se mostraran de forma vertical*/
         sharedPref = SharedPref(requireActivity())

@@ -10,6 +10,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.gson.Gson
@@ -40,11 +42,22 @@ class ClientUpdateActivity : AppCompatActivity() {
 
     var usersProvider: UsersProvider? = null
 
+    var toolbar:Toolbar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_client_update)
 
         sharedPref = SharedPref(this)
+
+
+        toolbar = findViewById(R.id.toolbar)
+        toolbar?.title = "Editar Perfil"
+        toolbar?.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar
+
 
         circleImageUser = findViewById(R.id.circleimage_user)
         editTextName = findViewById(R.id.edittextName)
