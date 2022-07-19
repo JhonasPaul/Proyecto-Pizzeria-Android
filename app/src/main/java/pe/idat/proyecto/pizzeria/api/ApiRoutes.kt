@@ -1,10 +1,11 @@
 package pe.idat.proyecto.pizzeria.api
 
 import pe.idat.proyecto.pizzeria.routes.CategoriesRoutes
+import pe.idat.proyecto.pizzeria.routes.ProductsRoutes
 import pe.idat.proyecto.pizzeria.routes.UsersRoutes
 
 class ApiRoutes {
-    val api_URL = "http://172.25.64.1:3000/api/"
+    val api_URL = "http://192.168.18.138:3000/api/"
     val retrofit = RetrofitClient()
 
     fun getUserRoutes(): UsersRoutes {
@@ -20,4 +21,7 @@ class ApiRoutes {
         return retrofit.getClientWithToken(api_URL, token).create(CategoriesRoutes::class.java)
     }
 
+    fun getProductsRouts(token:String): ProductsRoutes {
+        return retrofit.getClientWithToken(api_URL, token).create(ProductsRoutes::class.java)
+    }
 }

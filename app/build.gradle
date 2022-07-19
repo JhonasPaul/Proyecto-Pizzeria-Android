@@ -54,7 +54,7 @@ dependencies {
     /*iamgen circular*/
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-    /*librria de selección de imágenes para Android y camputar una imagen con la camara*/
+    /*librria de selección de imágenes para Android y capturar una imagen con la camara*/
     implementation 'com.github.dhaval2404:imagepicker:2.1'
 
     testImplementation 'junit:junit:4.+'

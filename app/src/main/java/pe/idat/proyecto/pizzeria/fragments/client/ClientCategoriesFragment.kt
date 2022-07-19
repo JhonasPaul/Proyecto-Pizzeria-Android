@@ -28,9 +28,10 @@ class ClientCategoriesFragment : Fragment() {
 
     val TAG = "CategoriesFragment"
     var myView: View? = null
+    /*lista categorias*/
     var recyclerViewCategories: RecyclerView? = null
-    var categoriesProvider: CategoriesProvider? = null
     var adapter: CategoriesAdapter? = null
+    var categoriesProvider: CategoriesProvider? = null
     var user: User? = null
     var sharedPref: SharedPref? = null
     var categories = ArrayList<Category>()
@@ -72,7 +73,6 @@ class ClientCategoriesFragment : Fragment() {
                 Log.d(TAG, "Error: ${t.message}")
                 Toast.makeText(requireContext(), "Error:  ${t.message}", Toast.LENGTH_LONG).show()
             }
-
         })
     }
 

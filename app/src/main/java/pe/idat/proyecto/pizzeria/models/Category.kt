@@ -15,6 +15,6 @@ class Category(
     }
 
     override fun toString(): String {
-        return "Category(id=$id, name='$name', image=$image)"
+        return name
     }
 }
