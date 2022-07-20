@@ -27,6 +27,7 @@ class ProductsProvider(val token:String) {
 //        return categoriesRoutes?.getAll(token)
 //    }
 
+    /*-->RestaurantProductFragment*/
     fun create(files: List<File>, product: Product): Call<ResponseHttp>? {
 
         /*almacenar el arreglo de imagenes*/

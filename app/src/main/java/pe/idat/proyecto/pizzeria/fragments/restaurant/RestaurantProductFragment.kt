@@ -14,8 +14,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.gson.Gson
+import com.tommasoberlose.progressdialog.ProgressDialogFragment
 import pe.idat.proyecto.pizzeria.R
+import pe.idat.proyecto.pizzeria.activities.commom.AppMensaje
+import pe.idat.proyecto.pizzeria.activities.commom.TipoMensaje
 import pe.idat.proyecto.pizzeria.adapters.CategoriesAdapter
+import pe.idat.proyecto.pizzeria.databinding.ActivityRegisterBinding
+import pe.idat.proyecto.pizzeria.databinding.FragmentRestaurantProductBinding
 import pe.idat.proyecto.pizzeria.models.Category
 import pe.idat.proyecto.pizzeria.models.Product
 import pe.idat.proyecto.pizzeria.models.ResponseHttp
@@ -29,7 +34,8 @@ import retrofit2.Response
 import java.io.File
 
 
-class RestaurantProductFragment : Fragment() {
+class RestaurantProductFragment : Fragment(){
+    private lateinit var binding: FragmentRestaurantProductBinding
 
     val TAG = "ProductFragment"
     var myView: View? = null
@@ -54,10 +60,13 @@ class RestaurantProductFragment : Fragment() {
     var categories = ArrayList<Category>()
     var idCategory = ""
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View? {
+        binding = FragmentRestaurantProductBinding.inflate(layoutInflater)
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_restaurant_product, container, false)
         editTextName = myView?.findViewById(R.id.edittex_name)
@@ -69,7 +78,7 @@ class RestaurantProductFragment : Fragment() {
         bottonCreate = myView?.findViewById(R.id.btn_create)
         spinnerCategories = myView?.findViewById(R.id.spinner_categories)
 
-        bottonCreate?.setOnClickListener { createProduct() }
+       bottonCreate?.setOnClickListener { createProduct() }
         imageViewProduct1?.setOnClickListener{selectImage(101)}
         imageViewProduct2?.setOnClickListener{selectImage(102)}
         imageViewProduct3?.setOnClickListener{selectImage(103)}
@@ -137,20 +146,42 @@ class RestaurantProductFragment : Fragment() {
             files.add(imageFile1!!)
             files.add(imageFile2!!)
             files.add(imageFile3!!)
+
+
+            ProgressDialogFragment.showProgressBar(requireActivity())
             productsProvider?.create(files, product)?.enqueue(object : Callback<ResponseHttp>{
                 override fun onResponse(call: Call<ResponseHttp>, response: Response<ResponseHttp>) {
+                    ProgressDialogFragment.hideProgressBar(requireActivity())
                     Log.d(TAG, "Response: ${response}")
                     Log.d(TAG, "Body: ${response.body()}")
                     Toast.makeText(requireContext(), response.body()?.message, Toast.LENGTH_SHORT).show()
+
+                    if (response.body()?.isSuccess == true) {
+                        resetForm()
+                    }
                 }
 
                 override fun onFailure(call: Call<ResponseHttp>, t: Throwable) {
+                    ProgressDialogFragment.hideProgressBar(requireActivity())
                     Log.d(TAG, "Error: ${t.message}")
                     Toast.makeText(requireContext(), "Error:  ${t.message}", Toast.LENGTH_LONG).show()
                 }
 
             })
         }
+    }
+
+    /*limpiar formulario*/
+    private fun resetForm() {
+        editTextName?.setText("")
+        editTextDescription?.setText("")
+        editTextPrice?.setText("")
+        imageFile1 = null
+        imageFile2 = null
+        imageFile3 = null
+        imageViewProduct1?.setImageResource(R.drawable.ic_image)
+        imageViewProduct2?.setImageResource(R.drawable.ic_image)
+        imageViewProduct3?.setImageResource(R.drawable.ic_image)
     }
 
     /*validacion*/

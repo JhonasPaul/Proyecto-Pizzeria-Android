@@ -5,6 +5,8 @@ buildscript {
         google()
         mavenCentral()
     }
+
+    /*7.2.1*/
     dependencies {
         classpath 'com.android.tools.build:gradle:7.2.1'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0'
@@ -22,8 +24,11 @@ allprojects {
         jcenter() // Warning: this repository is going to shut down soon
         maven { url "https://jitpack.io" }
 
+
     }
+
 }
+
 
 
 //task clean(type: Delete) {
