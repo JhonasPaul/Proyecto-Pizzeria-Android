@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.client.productos.list.ClientProductsListActivity">
+
+    <!--7 listar productos por categoria. Ir a CategoriesAdapter-->
+    <include layout="@layout/action_bar"/>
+
+    <!--6 listar productos por categoria:-->
+    <!--traer este RecyclerView de fragment_client_categories.xml -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycletview_products"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        android:layout_marginTop="55dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

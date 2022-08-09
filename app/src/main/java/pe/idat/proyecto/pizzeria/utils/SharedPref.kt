@@ -20,7 +20,7 @@ class SharedPref(activity:Activity) {
         try {
             /*convierte os objetos eb json*/
             val gson = Gson()
-            /*transforma el objeto a son*/
+            /*transforma el objeto a json*/
             val json = gson.toJson(objeto)
             with(prefs.edit()){
                 this.putString(key, json)
@@ -37,9 +37,9 @@ class SharedPref(activity:Activity) {
         return data
     }
 
-    /*cerrar sesion*/
+        /*cerrar sesion*/
     fun remove(key: String) {
         /*eliminar la informacion de SharedPreferences*/
-        prefs.edit().remove(key).apply()
+                   prefs.edit().remove(key).apply()
     }
 }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import pe.idat.proyecto.pizzeria.R
 import pe.idat.proyecto.pizzeria.activities.client.home.ClientHomeActivity
+import pe.idat.proyecto.pizzeria.activities.client.productos.list.ClientProductsListActivity
 import pe.idat.proyecto.pizzeria.activities.delivery.home.DeliveryHomeActivity
 import pe.idat.proyecto.pizzeria.activities.restaurante.home.RestaurantHomeActivity
 import pe.idat.proyecto.pizzeria.models.Category
@@ -37,13 +38,17 @@ class CategoriesAdapter(val context:Activity, val categories:ArrayList<Category>
         /*mostrar iamgen por url*/                  /*donde se mostrara la imagen*/
         Glide.with(context).load(category.image).into(holder.imageViewCategory)
 
-//        holder.itemView.setOnClickListener { goToRol(rol) }
+        /*9 listar productos por iategoria, descomentar*/
+        holder.itemView.setOnClickListener { goToProducts(category) }
     }
 
-//    private fun goToRol(rol: Rol) {
-//        val i = Intent(context, RestaurantHomeActivity ::class.java)
-//        context.startActivity(i)
-//    }
+    /*8 listar productos por categoria, descomentar y modificar*/
+    private fun goToProducts(category: Category) {
+        val i = Intent(context, ClientProductsListActivity ::class.java)
+        /*envia a ClientProductsListActivity el id de la categoria*/
+        i.putExtra("idCategory", category.id)
+        context.startActivity(i)
+    }
 
     class CategoriesViewHolder(view:View):RecyclerView.ViewHolder(view){
         /*isntanciar las vistas image y textview*/

@@ -23,9 +23,11 @@ class ProductsProvider(val token:String) {
         productsRoutes  = api.getProductsRouts(token)
     }
 
-//    fun getAll(): Call<ArrayList<Category>>? {
-//        return categoriesRoutes?.getAll(token)
-//    }
+    /*5 listar produtos por categoria: parametro producto de tipo lista. Crear el activity en client/products/listActivity para lisar productos.
+    * Ir ar ClientProductsListActivity*/
+    fun findByCategory(idCategory:String): Call<ArrayList<Product>>? {
+        return productsRoutes?.findByCategory(idCategory, token)
+    }
 
     /*-->RestaurantProductFragment*/
     fun create(files: List<File>, product: Product): Call<ResponseHttp>? {
